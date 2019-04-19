@@ -19,11 +19,11 @@ RUN apt-get update && apt-get install -y \
     bsdmainutils curl sudo
 
 # Create build user
-RUN useradd -m -s /bin/bash build && \
-        adduser build sudo && \
-        echo "build:build" | chpasswd
+RUN useradd -u 1010 -U  -m -s /bin/bash roy_lee && \
+        adduser roy_lee sudo && \
+        echo "roy_lee:roy_lee" | chpasswd
 
-WORKDIR /home/build
+WORKDIR /home/roy_lee
 
 # Add /sbin and /usr/sbin to build user's path
 RUN echo export PATH="/sbin:/usr/sbin:\$PATH" >> .bashrc
@@ -36,8 +36,8 @@ COPY home .
 RUN mkdir src
 
 # Make sure everything in /home/build is owned by the build user
-RUN chown -R build:build .
+RUN chown -R roy_lee:roy_lee .
 
-USER build
+USER roy_lee
 
 CMD ["/bin/bash", "--login"]
